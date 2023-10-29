@@ -1,12 +1,11 @@
 import { Typography } from '@mui/material';
-import styles from './about.module.scss';
 
 /* eslint-disable-next-line */
 export interface AboutProps {}
 
 export function About(props: AboutProps) {
   return (
-    <div className={styles['container']}>
+    <div>
       <Typography variant="h4">About us</Typography>
 
       <Typography paragraph>

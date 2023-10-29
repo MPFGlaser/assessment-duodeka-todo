@@ -1,12 +1,11 @@
 import { Typography } from '@mui/material';
-import styles from './home.module.scss';
 
 /* eslint-disable-next-line */
 export interface HomeProps {}
 
 export function Home(props: HomeProps) {
   return (
-    <div className={styles['container']}>
+    <div>
       <Typography variant="h4">Welcome to the DUODEKA TODO App!</Typography>
 
       <Typography paragraph>
