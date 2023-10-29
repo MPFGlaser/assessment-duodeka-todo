@@ -11,15 +11,19 @@ export interface TodoListProps {
 }
 
 export function TodoList(props: TodoListProps) {
-  const sortedContent = [...props.content].sort((a, b) => {
-    if (a.done && !b.done) {
-      return 1;
-    } else if (!a.done && b.done) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
+  let sortedContent: ITodoItem[] | null = [];
+
+  if (Array.isArray(props.content) && props.content.length > 0) {
+    sortedContent = props.content.sort((a, b) => {
+      if (a.done && !b.done) {
+        return 1;
+      } else if (!a.done && b.done) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
 
   return (
     <div>
