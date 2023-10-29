@@ -4,7 +4,22 @@ import TodoItem from './TodoItem';
 
 describe('TodoItem', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<TodoItem />);
+    // Arrange
+    const onChange = vitest.fn();
+    const onDelete = vitest.fn();
+
+    const data = {
+      id: '1',
+      content: 'Test',
+      done: false,
+    };
+
+    // Act
+    const { baseElement } = render(
+      <TodoItem data={data} onChange={onChange} onDelete={onDelete} />
+    );
+
+    // Assert
     expect(baseElement).toBeTruthy();
   });
 });
