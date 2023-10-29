@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Todo from './routes/todo/todo';
 import Home from './routes/home/home';
 import About from './routes/about/about';
+import { GlobalStateProvider } from './util/GlobalStateProvider';
 
 const routes = [
   {
@@ -35,6 +36,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <GlobalStateProvider>
+      <RouterProvider router={router} />
+    </GlobalStateProvider>
   </StrictMode>
 );
