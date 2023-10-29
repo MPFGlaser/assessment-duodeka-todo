@@ -1,36 +1,67 @@
 import TodoList from 'src/components/TodoList/TodoList';
-import styles from './todo.module.scss';
-import { ITodoItem } from 'src/interfaces/Todo';
 import { Typography } from '@mui/material';
-
-const dummydata: ITodoItem[] = [
-  {
-    id: 1,
-    content: 'Todo 1',
-    done: false,
-  },
-  {
-    id: 2,
-    content: 'Todo 2',
-    done: true,
-  },
-  {
-    id: 3,
-    content: 'Todo 3',
-    done: false,
-  },
-  {
-    id: 4,
-    content: 'Todo 4',
-    done: true,
-  },
-];
+import { useGlobalState } from 'src/util/GlobalStateProvider';
+import { ITodoItem } from 'src/interfaces/Todo';
 
 export function Todo() {
+  const { state, dispatch } = useGlobalState();
+
+  /**
+   * Create a new todo item in the globalstate
+   * @param newTodoItem {ITodoItem}
+   */
+  const handleCreation = (newTodoItem: ITodoItem) => {
+    dispatch({
+      type: 'UPDATE_STATE',
+      payload: {
+        todos: [...state.todos, newTodoItem],
+      },
+    });
+  };
+
+  /**
+   * Update an existing todo item in the globalstate
+   * @param updatedTodoItem {ITodoItem}
+   */
+  const handleChange = (updatedTodoItem: ITodoItem) => {
+    dispatch({
+      type: 'UPDATE_STATE',
+      payload: {
+        todos: state.todos.map((item) => {
+          if (item.id === updatedTodoItem.id) {
+            return {
+              ...item,
+              ...updatedTodoItem,
+            };
+          }
+          return item;
+        }),
+      },
+    });
+  };
+
+  /**
+   * Delete a todo item from the globalstate
+   * @param todoItem {ITodoItem}
+   */
+  const handleDelete = (todoItem: ITodoItem) => {
+    dispatch({
+      type: 'UPDATE_STATE',
+      payload: {
+        todos: state.todos.filter((item) => item.id !== todoItem.id),
+      },
+    });
+  };
+
   return (
-    <div className={styles['container']}>
+    <div>
       <Typography variant="h4">TODO List</Typography>
-      <TodoList content={dummydata} />
+      <TodoList
+        content={state.todos}
+        creationHandler={handleCreation}
+        changeHandler={handleChange}
+        deleteHandler={handleDelete}
+      />
     </div>
   );
 }

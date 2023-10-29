@@ -1,19 +1,40 @@
 import { ITodoItem } from 'src/interfaces/Todo';
-import styles from './TodoList.module.scss';
 import TodoItem from './TodoItem/TodoItem';
-import { Stack } from '@mui/material';
+import { Divider, Stack } from '@mui/material';
+import TodoItemCreator from './TodoItemCreator/TodoItemCreator';
 
 export interface TodoListProps {
   content: ITodoItem[];
+  creationHandler: (newTodoItem: ITodoItem) => void;
+  changeHandler: (updatedTodoItem: ITodoItem) => void;
+  deleteHandler: (todoItem: ITodoItem) => void;
 }
 
 export function TodoList(props: TodoListProps) {
+  const sortedContent = [...props.content].sort((a, b) => {
+    if (a.done && !b.done) {
+      return 1;
+    } else if (!a.done && b.done) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
   return (
-    <div className={styles['container']}>
+    <div>
       <Stack spacing={1}>
-        {props.content.map((item) => (
-          <TodoItem data={item} />
+        {sortedContent.length ? null : <div>You've got nothing to do!</div>}
+        {sortedContent.map((item) => (
+          <TodoItem
+            key={item.id}
+            data={item}
+            onChange={props.changeHandler}
+            onDelete={props.deleteHandler}
+          />
         ))}
+        <Divider />
+        <TodoItemCreator onSubmit={props.creationHandler} />
       </Stack>
     </div>
   );
